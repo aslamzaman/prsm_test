@@ -27,7 +27,7 @@ const Post = () => {
     }, [msg]);
 
 
-    const messageHandler = (data) => {
+    const messageHandler = (data:any) => {
         setMsg(data);
     }
 
@@ -53,7 +53,8 @@ const Post = () => {
                     </thead>
                     <tbody>
                         {
-                            posts.length ? posts.map(post => {
+                            posts.length ? posts.map((post: {id:string; name:string; short_name:string }) => {
+                                
                                 return (
                                     <tr className="border-b border-gray-200 hover:bg-gray-100" key={post.id}>
                                         <td className="text-center py-2 px-4">{post.name}</td>

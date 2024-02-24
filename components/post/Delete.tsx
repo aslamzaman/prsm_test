@@ -3,15 +3,15 @@ import { BtnEn } from "../Form";
 import { Close } from "@/components/Icons";
 
 
-const Delete = ({ message, id, data }) => {
-    const [name, setName] = useState({});
+const Delete = ({ message, id, data }:{message:any; id:string; data:any}) => {
+    const [name, setName] = useState("");
     const [show, setShow] = useState(false);
 
 
     const showDeleteForm = async () => {
         setShow(true);
         try {
-            const findOne = data.find(p => p.id === id);
+            const findOne = data.find((p:any) => p.id === id);
             setName(findOne.name);          
             message("Ready to delete");
         }

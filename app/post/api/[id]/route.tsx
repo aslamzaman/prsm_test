@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 
 
-export const GET = async (request, {params}) => {
+export const GET = async (request:Request, {params}:any) => {
     try {
         const {id} = params;
         const post = await prisma.post.findUnique({
@@ -25,7 +25,7 @@ export const GET = async (request, {params}) => {
 
 
 
-export const PATCH = async (request, {params}) => {
+export const PATCH = async (request:Request, {params}:any) => {
     try {
         const body = await request.json();
         const { name, short_name } = body;
@@ -56,7 +56,7 @@ export const PATCH = async (request, {params}) => {
 
 
 
-export const DELETE = async (request, {params}) => {
+export const DELETE = async ({params}: any) => {
     try {
         const {id} = params;
         await prisma.post.delete({

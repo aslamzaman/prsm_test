@@ -3,7 +3,7 @@ import { TextEn, BtnSubmit, BtnEn } from "@/components/Form";
 import { Close } from "@/components/Icons";
 
 
-const Add = ({ message }) => {
+const Add = ({ message }:any) => {
     const [name, setName] = useState('');
     const [short_name, setShort_name] = useState('');
     const [show, setShow] = useState(false);
@@ -36,7 +36,7 @@ const Add = ({ message }) => {
     }
 
 
-    const saveHandler = async (e) => {
+    const saveHandler = async (e:any) => {
         e.preventDefault();
         try {
             const newObject = createObject();
@@ -71,8 +71,8 @@ const Add = ({ message }) => {
                         <div className="px-6 pb-6 text-black">
                             <form onSubmit={saveHandler}>
                                 <div className="grid grid-cols-1 gap-4 my-4">
-                                    <TextEn Title="Name" Id="name" Change={e => setName(e.target.value)} Value={name} Chr="50" />
-                                    <TextEn Title="Short_name" Id="short_name" Change={e => setShort_name(e.target.value)} Value={short_name} Chr="50" />
+                                    <TextEn Title="Name" Id="name" Change={(e:any) => setName(e.target.value)} Value={name} Chr="50" />
+                                    <TextEn Title="Short_name" Id="short_name" Change={(e:any) => setShort_name(e.target.value)} Value={short_name} Chr="50" />
                                 </div>
                                 <div className="w-full flex justify-start">
                                     <BtnEn Title="Close" Click={closeAddForm} Class="bg-pink-600 hover:bg-pink-800 text-white" />

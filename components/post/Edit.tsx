@@ -4,7 +4,7 @@ import { Close } from "@/components/Icons";
 
 
 
-const Edit = ({ message, id, data }) => {
+const Edit = ({ message, id, data}:{message:any; id:string; data:any}) => {
     const [name, setName] = useState('');
     const [short_name, setShort_name] = useState('');
     const [show, setShow] = useState(false);
@@ -15,7 +15,7 @@ const Edit = ({ message, id, data }) => {
         message("Ready to edit");
         console.log(id, data)
         try {
-            const findOne = data.find(p=>p.id===id);
+            const findOne = data.find((p:any) => p.id === id);
             console.log(findOne)
             setName(findOne.name);
             setShort_name(findOne.short_name);
@@ -39,7 +39,7 @@ const Edit = ({ message, id, data }) => {
     }
 
 
-    const saveHandler = async (e) => {
+    const saveHandler = async (e:any) => {
         e.preventDefault();
         try {
             const newObject = createObject();
@@ -55,7 +55,7 @@ const Edit = ({ message, id, data }) => {
             console.log(response);
             message("Success");
 
-           // message(response.data.message);
+            // message(response.data.message);
         } catch (error) {
             console.log(error);
             message("Data updating error");
@@ -77,8 +77,8 @@ const Edit = ({ message, id, data }) => {
                         <div className="px-6 pb-6 text-black">
                             <form onSubmit={saveHandler} >
                                 <div className="grid grid-cols-1 gap-4 my-4">
-                                    <TextEn Title="Name" Id="name" Change={e => setName(e.target.value)} Value={name} Chr="50" />
-                                    <TextEn Title="Short_name" Id="short_name" Change={e => setShort_name(e.target.value)} Value={short_name} Chr="50" />
+                                    <TextEn Title="Name" Id="name" Change={(e:any) => setName(e.target.value)} Value={name} Chr="50" />
+                                    <TextEn Title="Short_name" Id="short_name" Change={(e:any) => setShort_name(e.target.value)} Value={short_name} Chr="50" />
                                 </div>
                                 <div className="w-full flex justify-start">
                                     <BtnEn Title="Close" Click={closeEditForm} Class="bg-pink-600 hover:bg-pink-800 text-white" />
