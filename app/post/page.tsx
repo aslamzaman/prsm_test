@@ -5,25 +5,30 @@ import Edit from "@/components/post/Edit";
 import Delete from "@/components/post/Delete";
 
 
+interface PostInterface {
+    id: string;
+    name: string;
+    short_name: string;
+  }
+  
 
 const Post = () => {
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState<PostInterface[]>([]);
     const [msg, setMsg] = useState("Data ready");
 
 
     useEffect(() => {
         const load = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/api`);
-                const result = await response.json();
-                const postsData = result.posts;
-                console.log(postsData);
-                setPosts(postsData);
+              const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/api`);
+              const result: { posts: PostInterface[] } = await response.json();
+              setPosts(result.posts);
             } catch (error) {
-                console.log(error);
+              console.error(error);
             }
-        };
-        load();
+          };
+      
+          load();
     }, [msg]);
 
 
@@ -53,7 +58,7 @@ const Post = () => {
                     </thead>
                     <tbody>
                         {
-                            posts.length ? posts.map((post: { id: string; name: string; short_name: string }) => {
+                            posts.length ? posts.map(post => {
 
                                 return (
                                     <tr className="border-b border-gray-200 hover:bg-gray-100" key={post.id}>

@@ -3,29 +3,36 @@ import { TextEn, BtnSubmit, BtnEn } from "@/components/Form";
 import { Close } from "@/components/Icons";
 
 
+interface DataSet {
+    id: string;
+    name: string;
+    short_name: string;
+}
+
 interface EditData {
     message: (text: string) => void;
     id: string;
-    data: any;
-  }
-  
-  const Edit: React.FC<EditData> = ({ message, id, data }) => {
-    const [name, setName] = useState('');
-    const [short_name, setShort_name] = useState('');
-    const [show, setShow] = useState(false);
+    data: DataSet[];
+}
+
+
+const Edit: React.FC<EditData> = ({ message, id, data }) => {
+    const [name, setName] = useState<string>('');
+    const [short_name, setShort_name] = useState<string>('');
+    const [show, setShow] = useState<boolean>(false);
 
 
     const showEditForm = async () => {
         setShow(true);
         message("Ready to edit");
         try {
-          const { name, short_name } = data.find((p: any) => p.id === id);
-          setName(name);
-          setShort_name(short_name);
+            const { name, short_name } = data.find(p => p.id === id) || { name: '', short_name: '' };
+            setName(name);
+            setShort_name(short_name);
         } catch (err) {
-          console.log(err);
+            console.log(err);
         }
-      };
+    };
 
 
     const closeEditForm = () => {
@@ -42,11 +49,14 @@ interface EditData {
     }
 
 
+
     const saveHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         try {
             const newObject = createObject();
             const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/post/api/${id}`;
+            console.log(apiUrl)
             const requestOptions = {
                 method: "PATCH",
                 headers: {
@@ -56,7 +66,7 @@ interface EditData {
             };
             const response = await fetch(apiUrl, requestOptions);
             console.log(response);
-            message("Success");
+            message("Updated successfully completed");
 
             // message(response.data.message);
         } catch (error) {
@@ -80,8 +90,8 @@ interface EditData {
                         <div className="px-6 pb-6 text-black">
                             <form onSubmit={saveHandler} >
                                 <div className="grid grid-cols-1 gap-4 my-4">
-                                    <TextEn Title="Name" Id="name" Change={(e: any) => setName(e.target.value)} Value={name} Chr="50" />
-                                    <TextEn Title="Short_name" Id="short_name" Change={(e: any) => setShort_name(e.target.value)} Value={short_name} Chr="50" />
+                                    <TextEn Title="Name" Id="name" Change={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} Value={name} Chr="50" />
+                                    <TextEn Title="Short_name" Id="short_name" Change={(e: React.ChangeEvent<HTMLInputElement>) => setShort_name(e.target.value)} Value={short_name} Chr="50" />
                                 </div>
                                 <div className="w-full flex justify-start">
                                     <BtnEn Title="Close" Click={closeEditForm} Class="bg-pink-600 hover:bg-pink-800 text-white" />

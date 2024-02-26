@@ -3,23 +3,28 @@ import { BtnEn } from "../Form";
 import { Close } from "@/components/Icons";
 
 
+interface DataSet {
+    id: string;
+    name: string;
+    short_name: string;
+}
+
 interface DeleteData {
     message: (text: string) => void;
     id: string;
-    data: any;
-  }
-
+    data: DataSet[];
+}
 
 const Delete: React.FC<DeleteData> = ({ message, id, data }) => {
-    const [name, setName] = useState("");
-    const [show, setShow] = useState(false);
+    const [name, setName] = useState<string>("");
+    const [show, setShow] = useState<boolean>(false);
 
 
     const showDeleteForm = async () => {
         setShow(true);
         try {
-            const findOne = data.find((p:any) => p.id === id);
-            setName(findOne.name);          
+            const { name } = data.find(p => p.id === id) || { name: '' };
+            setName(name);
             message("Ready to delete");
         }
         catch (err) {
@@ -37,10 +42,11 @@ const Delete: React.FC<DeleteData> = ({ message, id, data }) => {
     const deleteYesClick = async () => {
         try {
             const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/post/api/${id}`;
-            const requestOptions = {method: "DELETE"};
+            const requestOptions = { method: "POST" };
             const response = await fetch(apiUrl, requestOptions);
-            console.log(response);
-            message("Success");
+            console.log(apiUrl);
+            message("Deleted successfully completed");
+
         } catch (error) {
             console.log(error);
             message("Data deleting error");
