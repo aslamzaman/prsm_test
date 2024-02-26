@@ -3,7 +3,14 @@ import { BtnEn } from "../Form";
 import { Close } from "@/components/Icons";
 
 
-const Delete = ({ message, id, data }:{message:any; id:string; data:any}) => {
+interface DeleteData {
+    message: (text: string) => void;
+    id: string;
+    data: any;
+  }
+
+
+const Delete: React.FC<DeleteData> = ({ message, id, data }) => {
     const [name, setName] = useState("");
     const [show, setShow] = useState(false);
 

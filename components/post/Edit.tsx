@@ -3,8 +3,13 @@ import { TextEn, BtnSubmit, BtnEn } from "@/components/Form";
 import { Close } from "@/components/Icons";
 
 
-
-const Edit = ({ message, id, data}:{message:any; id:string; data:any}) => {
+interface EditData {
+    message: (text: string) => void;
+    id: string;
+    data: any;
+  }
+  
+  const Edit: React.FC<EditData> = ({ message, id, data }) => {
     const [name, setName] = useState('');
     const [short_name, setShort_name] = useState('');
     const [show, setShow] = useState(false);
@@ -13,16 +18,14 @@ const Edit = ({ message, id, data}:{message:any; id:string; data:any}) => {
     const showEditForm = async () => {
         setShow(true);
         message("Ready to edit");
-        console.log(id, data)
         try {
-            const findOne = data.find((p:any) => p.id === id);
-            console.log(findOne)
-            setName(findOne.name);
-            setShort_name(findOne.short_name);
+          const { name, short_name } = data.find((p: any) => p.id === id);
+          setName(name);
+          setShort_name(short_name);
         } catch (err) {
-            console.log(err);
+          console.log(err);
         }
-    };
+      };
 
 
     const closeEditForm = () => {
@@ -39,7 +42,7 @@ const Edit = ({ message, id, data}:{message:any; id:string; data:any}) => {
     }
 
 
-    const saveHandler = async (e:any) => {
+    const saveHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const newObject = createObject();
@@ -77,8 +80,8 @@ const Edit = ({ message, id, data}:{message:any; id:string; data:any}) => {
                         <div className="px-6 pb-6 text-black">
                             <form onSubmit={saveHandler} >
                                 <div className="grid grid-cols-1 gap-4 my-4">
-                                    <TextEn Title="Name" Id="name" Change={(e:any) => setName(e.target.value)} Value={name} Chr="50" />
-                                    <TextEn Title="Short_name" Id="short_name" Change={(e:any) => setShort_name(e.target.value)} Value={short_name} Chr="50" />
+                                    <TextEn Title="Name" Id="name" Change={(e: any) => setName(e.target.value)} Value={name} Chr="50" />
+                                    <TextEn Title="Short_name" Id="short_name" Change={(e: any) => setShort_name(e.target.value)} Value={short_name} Chr="50" />
                                 </div>
                                 <div className="w-full flex justify-start">
                                     <BtnEn Title="Close" Click={closeEditForm} Class="bg-pink-600 hover:bg-pink-800 text-white" />
