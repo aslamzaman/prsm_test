@@ -3,16 +3,14 @@ import { TextEn, BtnSubmit, BtnEn } from "@/components/Form";
 import { Close } from "@/components/Icons";
 
 
-interface DataSet {
-    id: string;
-    name: string;
-    short_name: string;
-}
-
 interface EditData {
-    message: (text: string) => void;
-    id: string;
-    data: DataSet[];
+    message: (text: string) => void,
+    id: string,
+    data: {
+        id: string,
+        name: string,
+        short_name: string
+    }[];
 }
 
 
@@ -56,7 +54,6 @@ const Edit: React.FC<EditData> = ({ message, id, data }) => {
         try {
             const newObject = createObject();
             const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/post/api/${id}`;
-            console.log(apiUrl)
             const requestOptions = {
                 method: "PATCH",
                 headers: {
@@ -65,10 +62,7 @@ const Edit: React.FC<EditData> = ({ message, id, data }) => {
                 body: JSON.stringify(newObject)
             };
             const response = await fetch(apiUrl, requestOptions);
-            console.log(response);
             message("Updated successfully completed");
-
-            // message(response.data.message);
         } catch (error) {
             console.log(error);
             message("Data updating error");

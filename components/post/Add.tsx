@@ -49,7 +49,6 @@ const Add = ({ message }: {message: (text:string) => void }) => {
                 body: JSON.stringify(newObject)
             };
             const response = await fetch(apiUrl, requestOptions);
-            console.log(response);
             message("Success");
         } catch (error) {
             console.log(error);

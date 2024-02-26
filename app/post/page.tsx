@@ -6,9 +6,9 @@ import Delete from "@/components/post/Delete";
 
 
 interface PostInterface {
-    id: string;
-    name: string;
-    short_name: string;
+    id: string,
+    name: string,
+    short_name: string
   }
   
 
