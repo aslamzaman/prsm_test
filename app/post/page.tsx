@@ -1,12 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Add from "@/components/post/Add";
-import Edit from "@/components/post/Edit";
-import Delete from "@/components/post/Delete";
+//import Add from "@/components/post/Add";
+//import Edit from "@/components/post/Edit";
+//import Delete from "@/components/post/Delete";
 
 
 interface PostInterface {
-    id: string,
+    _id: string,
     name: string,
     short_name: string
   }
@@ -20,9 +20,10 @@ const Post = () => {
     useEffect(() => {
         const load = async () => {
             try {
-              const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/api`);
+              const response = await fetch(`http://localhost:3000/post/api`);
               const result: { posts: PostInterface[] } = await response.json();
               setPosts(result.posts);
+              console.log(result.posts)
             } catch (error) {
               console.error(error);
             }
@@ -51,7 +52,7 @@ const Post = () => {
                             <th className="text-center border-b border-gray-200 px-4 py-2">Short_name</th>
                             <th className="w-[100px] font-normal">
                                 <div className="w-full flex justify-end mt-1 pr-[3px] lg:pr-2">
-                                    <Add message={messageHandler} />
+                                    {/* <Add message={messageHandler} /> */}
                                 </div>
                             </th>
                         </tr>
@@ -61,12 +62,12 @@ const Post = () => {
                             posts.length ? posts.map(post => {
 
                                 return (
-                                    <tr className="border-b border-gray-200 hover:bg-gray-100" key={post.id}>
+                                    <tr className="border-b border-gray-200 hover:bg-gray-100" key={post._id}>
                                         <td className="text-center py-2 px-4">{post.name}</td>
                                         <td className="text-center py-2 px-4">{post.short_name}</td>
                                         <td className="flex justify-end items-center mt-1">
-                                            <Edit message={messageHandler} id={post.id} data={posts} />
-                                            <Delete message={messageHandler} id={post.id} data={posts} />
+                                            {/* <Edit message={messageHandler} id={post._id} data={posts} />
+                                            <Delete message={messageHandler} id={post._id} data={posts} /> */}
                                         </td>
                                     </tr>
                                 )
