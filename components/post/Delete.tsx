@@ -7,12 +7,12 @@ interface DeleteData {
     message: (text: string) => void,
     id: string,
     data: {
-        id: string,
+        _id: string,
         name: string,
         short_name: string
-    }[];
+    }[]
 }
-const Delete: React.FC<DeleteData> = ({ message, id, data }) => {
+const Delete = ({ message, id, data }: DeleteData) => {
     const [name, setName] = useState<string>("");
     const [show, setShow] = useState<boolean>(false);
 
@@ -20,7 +20,7 @@ const Delete: React.FC<DeleteData> = ({ message, id, data }) => {
     const showDeleteForm = async () => {
         setShow(true);
         try {
-            const { name } = data.find(p => p.id === id) || { name: '' };
+            const { name } = data.find(p => p._id === id) || { name: '' };
             setName(name);
             message("Ready to delete");
         }
@@ -38,14 +38,15 @@ const Delete: React.FC<DeleteData> = ({ message, id, data }) => {
 
     const deleteYesClick = async () => {
         try {
-            const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/post/api/${id}`;
+            const apiUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/post/api/${id}`;
+            console.log(apiUrl)
             const requestOptions = { method: "DELETE" };
             const response = await fetch(apiUrl, requestOptions);
 
             if (!response.ok) {
                 throw new Error(`Failed to delete post. Status: ${response.status}`);
             }
- 
+
             message("Deleted successfully completed");
         } catch (error) {
             console.error("Delete Error:", error);
@@ -67,7 +68,12 @@ const Delete: React.FC<DeleteData> = ({ message, id, data }) => {
                         </div>
                         <div className="p-4 lg:p-6 flex flex-col space-y-4">
                             <div className="w-full">
-                                <img className="w-10 h-10 mx-auto mb-5" src="/images/warning/warning-sign-icon.png" alt="warning" />
+                                <svg height="80" width="80" xmlns="http://www.w3.org/2000/svg" className="bg-white mx-auto">
+                                    <path d="M40 5 L5 75 L75 75 Z" className="fill-none stroke-black stroke-[5px]"  />
+                                    <path d="M40 25 L40 50" className="fill-none stroke-black stroke-[5px]"  />
+                                    <path d="M40 55 L40 65" className="fill-none stroke-black stroke-[5px]"  />
+                                </svg>
+
                                 <h1 className="text-sm text-center text-gray-600">
                                     Are you sure to proceed with the deletion?</h1>
                                 <h1 className="text-center text-gray-600 font-bold">{name}</h1>
@@ -78,7 +84,7 @@ const Delete: React.FC<DeleteData> = ({ message, id, data }) => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div >
             )}
             <button onClick={showDeleteForm} title="Delete" className="w-8 h-8 rounded-full hover:bg-gray-200 mr-[16px] flex justify-center items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">

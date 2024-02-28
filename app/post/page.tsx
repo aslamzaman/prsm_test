@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import Add from "@/components/post/Add";
 
-//import Edit from "@/components/post/Edit";
-//import Delete from "@/components/post/Delete";
+import Edit from "@/components/post/Edit";
+import Delete from "@/components/post/Delete";
 
 
 interface PostInterface {
@@ -24,11 +24,11 @@ const Post = () => {
             const baseUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}`
             try {
                 const response = await fetch(`${baseUrl}/post/api`, {
-                    method: "GET",         
-                    headers: {"Content-Type": "application/json"}
-                   // body: JSON.stringify(data),
-                  });
-                const data = await response.json(); 
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" }
+                    // body: JSON.stringify(data),
+                });
+                const data = await response.json();
                 console.log(data.posts)
                 setPosts(data.posts);
 
@@ -74,8 +74,8 @@ const Post = () => {
                                         <td className="text-center py-2 px-4">{post.name}</td>
                                         <td className="text-center py-2 px-4">{post.short_name}</td>
                                         <td className="flex justify-end items-center mt-1">
-                                            {/* <Edit message={messageHandler} id={post._id} data={posts} />
-                                            <Delete message={messageHandler} id={post._id} data={posts} /> */}
+                                            <Edit message={messageHandler} id={post._id} data={posts} />
+                                            <Delete message={messageHandler} id={post._id} data={posts} />
                                         </td>
                                     </tr>
                                 )

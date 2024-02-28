@@ -7,14 +7,14 @@ interface EditData {
     message: (text: string) => void,
     id: string,
     data: {
-        id: string,
+        _id: string,
         name: string,
         short_name: string
-    }[];
+    }[]
 }
 
 
-const Edit: React.FC<EditData> = ({ message, id, data }) => {
+const Edit = ({ message, id, data }:EditData) => {
     const [name, setName] = useState<string>('');
     const [short_name, setShort_name] = useState<string>('');
     const [show, setShow] = useState<boolean>(false);
@@ -24,7 +24,8 @@ const Edit: React.FC<EditData> = ({ message, id, data }) => {
         setShow(true);
         message("Ready to edit");
         try {
-            const { name, short_name } = data.find(p => p.id === id) || { name: '', short_name: '' };
+            console.log(data)
+            const { name, short_name } = data.find(p => p._id === id) || { name: '', short_name: '' };
             setName(name);
             setShort_name(short_name);
         } catch (err) {
@@ -53,12 +54,10 @@ const Edit: React.FC<EditData> = ({ message, id, data }) => {
 
         try {
             const newObject = createObject();
-            const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/post/api/${id}`;
+            const apiUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/post/api/${id}`;
             const requestOptions = {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(newObject)
             };
             const response = await fetch(apiUrl, requestOptions);
