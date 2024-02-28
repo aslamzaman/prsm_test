@@ -1,14 +1,12 @@
 import { NextResponse } from 'next/server';
-import { connect } from '@/lib/connection';
+import { Connect } from '@/lib/connection';
+import { PostTable } from '@/lib/model';
 
 
 export async function GET() {
   try {
-   // await mongoose.connect('mongodb+srv://aslam:aslam2014@cluster0.aoj7q.mongodb.net/wgi?retryWrites=true&w=majority');
-   
-   const { Post } = await connect();
-
-    const posts = await Post.find({});
+    await Connect();
+    const posts = await PostTable.find({});
     return NextResponse.json({ posts });
   } catch (error) {
     console.error('GET Error:', error);
@@ -17,25 +15,19 @@ export async function GET() {
 
 }
 
-/*
+
 
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
     const { name, short_name } = body;
-    const newPost = await prisma.post.create({
-      data: {
-        name,
-        short_name
-      }
-    });
-    return NextResponse.json(newPost);
-
+    await Connect();
+    const posts = await PostTable.create({name, short_name});
+    return NextResponse.json(posts);
   } catch (err) {
     return NextResponse.json({ message: "POST Error", err }, { status: 500 });
   }
 }
 
 
-*/
 

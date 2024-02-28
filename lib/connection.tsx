@@ -1,24 +1,13 @@
-import mongoose, { Model } from "mongoose"
+import mongoose from "mongoose";
 
-// CONNECTING TO MONGOOSE (Get Database Url from .env.local)
-//const { DATABASE_URL } = process.env
 
-// connection function
-export const connect = async () => {
-    const conn = await mongoose
-        // .connect(DATABASE_URL as string)
-        .connect('mongodb+srv://aslam:aslam2014@cluster0.aoj7q.mongodb.net/wgi?retryWrites=true&w=majority')
-        .catch(err => console.log(err))
-    console.log("Mongoose Connection Established")
+const uri:string = `${process.env.DATABASE_URL}`;
 
-    // OUR Post SCHEMA
-    const PostSchema = new mongoose.Schema({
-        name: String,
-        short_name: String,
-    })
-
-    // OUR TODO MODEL
-    const Post = mongoose.models.Post || mongoose.model("Post", PostSchema)
-
-    return { conn, Post }
+export const Connect = async () => {
+    try {
+        await mongoose.connect(uri);
+        console.log("Mongoose Connection Established");
+    } catch (err) {
+        console.log(`Mongodb connection fail. ${err}`);
+    }
 }

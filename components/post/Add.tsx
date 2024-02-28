@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { TextEn, BtnSubmit, BtnEn } from "@/components/Form";
 import { Close } from "@/components/Icons";
 
+interface IAdd {
+    message: (text: string) => void;
+}
 
-const Add = ({ message }: {message: (text:string) => void }) => {
-    const [name, setName] = useState('');
-    const [short_name, setShort_name] = useState('');
-    const [show, setShow] = useState(false);
+
+const Add = ({ message }: IAdd) => {
+    const [name, setName] = useState<string>('');
+    const [short_name, setShort_name] = useState<string>('');
+    const [show, setShow] = useState<boolean>(false);
 
 
     const resetVariables = () => {
@@ -35,21 +39,18 @@ const Add = ({ message }: {message: (text:string) => void }) => {
         }
     }
 
-
     const saveHandler = async (e: any) => {
         e.preventDefault();
         try {
-            const newObject = createObject();
-            const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/post/api`;
-            const requestOptions = {
+            const newObject: {} = createObject();
+            const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/post/api`;
+            const requestOptions: any = {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newObject)
             };
             const response = await fetch(apiUrl, requestOptions);
-            message("Success");
+            message("Post is created!");
         } catch (error) {
             console.log(error);
             message("Error saving post data.");

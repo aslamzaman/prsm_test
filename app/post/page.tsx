@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-//import Add from "@/components/post/Add";
+import Add from "@/components/post/Add";
+
 //import Edit from "@/components/post/Edit";
 //import Delete from "@/components/post/Delete";
 
@@ -9,27 +10,34 @@ interface PostInterface {
     _id: string,
     name: string,
     short_name: string
-  }
-  
+}
+
 
 const Post = () => {
     const [posts, setPosts] = useState<PostInterface[]>([]);
     const [msg, setMsg] = useState("Data ready");
 
 
+
     useEffect(() => {
         const load = async () => {
+            const baseUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}`
             try {
-              const response = await fetch(`http://localhost:3000/post/api`);
-              const result: { posts: PostInterface[] } = await response.json();
-              setPosts(result.posts);
-              console.log(result.posts)
+                const response = await fetch(`${baseUrl}/post/api`, {
+                    method: "GET",         
+                    headers: {"Content-Type": "application/json"}
+                   // body: JSON.stringify(data),
+                  });
+                const data = await response.json(); 
+                console.log(data.posts)
+                setPosts(data.posts);
+
             } catch (error) {
-              console.error(error);
+                console.error(error);
             }
-          };
-      
-          load();
+        };
+
+        load();
     }, [msg]);
 
 
@@ -52,7 +60,7 @@ const Post = () => {
                             <th className="text-center border-b border-gray-200 px-4 py-2">Short_name</th>
                             <th className="w-[100px] font-normal">
                                 <div className="w-full flex justify-end mt-1 pr-[3px] lg:pr-2">
-                                    {/* <Add message={messageHandler} /> */}
+                                    <Add message={messageHandler} />
                                 </div>
                             </th>
                         </tr>
