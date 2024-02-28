@@ -6,7 +6,7 @@ import { PostTable } from '@/lib/model';
 export async function GET() {
   try {
     await Connect();
-    const posts = await PostTable.find({});
+    const posts = await PostTable.find({}).sort({_id:'desc'});
     return NextResponse.json({ posts });
   } catch (error) {
     console.error('GET Error:', error);

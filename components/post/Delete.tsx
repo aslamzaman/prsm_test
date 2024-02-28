@@ -3,7 +3,7 @@ import { BtnEn } from "../Form";
 import { Close } from "@/components/Icons";
 
 
-interface DeleteData {
+interface IDelete {
     message: (text: string) => void,
     id: string,
     data: {
@@ -12,7 +12,7 @@ interface DeleteData {
         short_name: string
     }[]
 }
-const Delete = ({ message, id, data }: DeleteData) => {
+const Delete = ({ message, id, data }: IDelete) => {
     const [name, setName] = useState<string>("");
     const [show, setShow] = useState<boolean>(false);
 
@@ -38,10 +38,9 @@ const Delete = ({ message, id, data }: DeleteData) => {
 
     const deleteYesClick = async () => {
         try {
-            const apiUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/post/api/${id}`;
-            console.log(apiUrl)
+            const Url = `${process.env.NEXT_PUBLIC_BASE_URL}/post/api/${id}`;
             const requestOptions = { method: "DELETE" };
-            const response = await fetch(apiUrl, requestOptions);
+            const response = await fetch(Url, requestOptions);
 
             if (!response.ok) {
                 throw new Error(`Failed to delete post. Status: ${response.status}`);
@@ -68,13 +67,13 @@ const Delete = ({ message, id, data }: DeleteData) => {
                         </div>
                         <div className="p-4 lg:p-6 flex flex-col space-y-4">
                             <div className="w-full">
-                                <svg height="80" width="80" xmlns="http://www.w3.org/2000/svg" className="bg-white mx-auto">
-                                    <path d="M40 5 L5 75 L75 75 Z" className="fill-none stroke-black stroke-[5px]"  />
-                                    <path d="M40 25 L40 50" className="fill-none stroke-black stroke-[5px]"  />
-                                    <path d="M40 55 L40 65" className="fill-none stroke-black stroke-[5px]"  />
+                                <svg height="60" width="60" xmlns="http://www.w3.org/2000/svg" className="bg-white-100 mx-auto">
+                                    <path d="M30 3 L3 57 L57 57 Z" className="fill-none stroke-red-700 stroke-[5px]" />
+                                    <path d="M30 23 L30 40" className="fill-none stroke-red-700 stroke-[5px]" />
+                                    <path d="M30 45 L30 50" className="fill-none stroke-red-700 stroke-[5px]" />
                                 </svg>
 
-                                <h1 className="text-sm text-center text-gray-600">
+                                <h1 className="text-sm text-center text-gray-600 mt-4">
                                     Are you sure to proceed with the deletion?</h1>
                                 <h1 className="text-center text-gray-600 font-bold">{name}</h1>
                             </div>
@@ -86,8 +85,8 @@ const Delete = ({ message, id, data }: DeleteData) => {
                     </div>
                 </div >
             )}
-            <button onClick={showDeleteForm} title="Delete" className="w-8 h-8 rounded-full hover:bg-gray-200 mr-[16px] flex justify-center items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
+            <button onClick={showDeleteForm} title="Delete" className="px-1 py-1 bg-red-600 hover:bg-red-800 rounded-md transition duration-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5 stroke-white hover:stroke-gray-100">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
