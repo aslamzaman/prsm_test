@@ -12,7 +12,7 @@ interface IDelete {
         short_name: string
     }[]
 }
-const Delete = ({ message, id, data }: IDelete) => {
+const Delete:React.FC<IDelete>= ({ message, id, data }) => {
     const [name, setName] = useState<string>("");
     const [show, setShow] = useState<boolean>(false);
 
@@ -63,7 +63,11 @@ const Delete = ({ message, id, data }: IDelete) => {
                     <div className="w-11/12 md:w-1/2 mx-auto mb-10 bg-white border-2 border-gray-300 rounded-md shadow-md duration-300">
                         <div className="px-6 md:px-6 py-2 flex justify-between items-center border-b border-gray-300">
                             <h1 className="text-xl font-bold text-blue-600">Delete Existing Data</h1>
-                            <Close Click={closeDeleteForm} Size="w-8 h-8" />
+                            <button onClick={closeDeleteForm} className="w-8 h-8 p-0.5 bg-gray-50 hover:bg-gray-300 rounded-md transition duration-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-full h-full stroke-black">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                         <div className="p-4 lg:p-6 flex flex-col space-y-4">
                             <div className="w-full">
@@ -85,7 +89,7 @@ const Delete = ({ message, id, data }: IDelete) => {
                     </div>
                 </div >
             )}
-            <button onClick={showDeleteForm} title="Delete" className="px-1 py-1 bg-red-600 hover:bg-red-800 rounded-md transition duration-500">
+            <button onClick={showDeleteForm} title="Delete" className="px-1 py-1 bg-red-400 hover:bg-red-600 rounded-md transition duration-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5 stroke-white hover:stroke-gray-100">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>

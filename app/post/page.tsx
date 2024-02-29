@@ -29,15 +29,16 @@ const Post = () => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch data");
                 }
-
+                
                 const data: { posts: IPost[] } = await response.json();
+               
                 setPosts(data.posts);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setMsg("Failed to fetch data");
             }
+            
         };
-
         fetchData();
     }, [msg]);
 
@@ -81,7 +82,7 @@ const Post = () => {
                         ) : (
                             <tr>
                                 <td colSpan={3} className="text-center py-10 px-4">
-                                    No posts available
+                                    Please wait...
                                 </td>
                             </tr>
                         )}

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { Connect } from '@/lib/connection';
-import { PostTable } from '@/lib/model';
+import { Connect } from '@/db/MongoDbConnection';
+import { PostTable } from '@/models/PostModel';
 
 
 export async function GET() {
