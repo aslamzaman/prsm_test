@@ -6,15 +6,14 @@ interface IAdd {
     message: (text: string) => void;
 }
 
-
-const Add = ({ message }: IAdd) => {
+const Add: React.FC<IAdd> = ({ message }) => {
     const [name, setName] = useState<string>('');
     const [short_name, setShort_name] = useState<string>('');
     const [show, setShow] = useState<boolean>(false);
 
 
     const resetVariables = () => {
-        message("Ready to add new");
+        message("Ready to make new additions");
         setName('');
         setShort_name('');
     }
@@ -39,12 +38,13 @@ const Add = ({ message }: IAdd) => {
         }
     }
 
+
     const saveHandler = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             const newObject: {} = createObject();
             const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/post/api`;
-            const requestOptions = {
+            const requestOptions: RequestInit = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newObject)
@@ -80,8 +80,8 @@ const Add = ({ message }: IAdd) => {
                         <div className="px-6 pb-6 text-black">
                             <form onSubmit={saveHandler}>
                                 <div className="grid grid-cols-1 gap-4 my-4">
-                                    <TextEn Title="Name" Id="name" Change={(e: any) => setName(e.target.value)} Value={name} Chr="50" />
-                                    <TextEn Title="Short_name" Id="short_name" Change={(e: any) => setShort_name(e.target.value)} Value={short_name} Chr="50" />
+                                    <TextEn Title="Name" Id="name" Change={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} Value={name} Chr="50" />
+                                    <TextEn Title="Short_name" Id="short_name" Change={(e: React.ChangeEvent<HTMLInputElement>) => setShort_name(e.target.value)} Value={short_name} Chr="50" />
                                 </div>
                                 <div className="w-full flex justify-start">
                                     <BtnEn Title="Close" Click={closeAddForm} Class="bg-pink-600 hover:bg-pink-800 text-white" />

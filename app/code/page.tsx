@@ -1,38 +1,33 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { BtnEn, DropdownEn, TextEn, TextareaEn } from "@/components/Form";
+import { BtnEn, DropdownEn, TextEn } from "@/components/Form";
 
 import Page from "@/components/code/Page";
 import Add from "@/components/code/Add";
 import Edit from "@/components/code/Edit";
 import Delete from "@/components/code/Delete";
 import LocalDatabase from "@/components/code/LocalDatabase";
-import DexieDatabase from "@/components/code/DexieDatabase";
-import MysqlRoutes from "@/components/code/MysqlRoutes";
 import LayoutPage from "@/components/code/LayoutPage";
 import Help_code from "@/components/code/HelpCode";
-import ServerString from "@/components/code/MysqlServer";
-import MysqlDb from "@/components/code/MysqlDb";
-import DownloadPage from "@/components/code/DownloadPage";
-import UploadPage from "@/components/code/UploadPage";
 import PrintPage from "@/components/code/PrintPage";
 import TwoPart from "@/components/code/TowPart";
 import OnePage from "@/components/code/OnePage";
 
-const titleCase = (str) => {
+const titleCase = (str: string) => {
     return str
         .split(' ')
-        .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+        .map((word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase())
         .join(' ');
 }
 
 
+
 const Code = () => {
-    const [opt, setOpt] = useState("mysql");
-    const [tbl, setTbl] = useState("");
-    const [fld, setFld] = useState("");
-    const [titleText, setTitleText] = useState("Result");
-    const [result, setResult] = useState("Result");
+    const [opt, setOpt] = useState<string>("mysql");
+    const [tbl, setTbl] = useState<string>("");
+    const [fld, setFld] = useState<string>("");
+    const [titleText, setTitleText] = useState<string>("Result");
+    const [result, setResult] = useState<string>("Result");
 
     useEffect(() => {
         const newDb = localStorage.getItem('db');
@@ -54,17 +49,17 @@ const Code = () => {
 
 
     const AddGenerate = () => {
-        setTitleText(`components/${tbl}/Add.js`);
+        setTitleText(`components/${tbl}/Add.tsx`);
         setResult(Add(tbl, fld, opt));
     }
 
     const EditGenerate = () => {
-        setTitleText(`components/${tbl}/Edit.js`);
+        setTitleText(`components/${tbl}/Edit.tsx`);
         setResult(Edit(tbl, fld, opt));
     }
 
     const DeleteGenerate = () => {
-        setTitleText(`components/${tbl}/Delete.js`);
+        setTitleText(`components/${tbl}/Delete.tsx`);
         setResult(Delete(tbl, fld, opt));
     }
 
@@ -73,15 +68,7 @@ const Code = () => {
         setResult(LocalDatabase());
     }
 
-    const DexieDatabaseGenerate = () => {
-        setTitleText(`lib/DexieDatabase.js`);
-        setResult(DexieDatabase());
-    }
 
-    const MysqlDatabaseGenerate = () => {
-        setTitleText(`src/routes/${titleCase(tbl)}Route.js`);
-        setResult(MysqlRoutes(tbl, fld, opt));
-    }
 
     const UnitqueIdGenerator = () => {
         setTitleText(`Unique Id`);
@@ -96,27 +83,9 @@ const Code = () => {
 
     const HelpPageGenerate = () => {
         setTitleText(`Help`);
-        setResult(Help_code(tbl, fld));
+        setResult(Help_code(tbl));
     }
 
-    const ServerPageGenerate = () => {
-        setTitleText(`index.js`);
-        setResult(ServerString(tbl, fld));
-    }
-    const MysqlDbPageGenerate = () => {
-        setTitleText(`src/utils/db.js`);
-        setResult(MysqlDb());
-    }
-
-    const Download = () => {
-        setTitleText(`components/${tbl}/Download.js`);
-        setResult(DownloadPage(tbl, fld));
-    }
-
-    const Upload = () => {
-        setTitleText(`components/${tbl}/Upload.js`);
-        setResult(UploadPage(tbl, fld));
-    }
 
     const Print = () => {
         setTitleText(`components/${tbl}/Print.js`);
@@ -281,8 +250,8 @@ const Code = () => {
         const tbName = sp.map(t => ' ' + t.trim() + 'Response').toString();
 
         let str = "";
-        str = str +'import React, { useState, useEffect } from "react";\n';
-        str = str +'import {fetchAll} from "@/lib/DexieDatabase";\n';
+        str = str + 'import React, { useState, useEffect } from "react";\n';
+        str = str + 'import {fetchAll} from "@/lib/DexieDatabase";\n';
         str = str + "\n";
 
         str = str + `    const [${sp[0].trim()}s, set${titleCase(sp[0].trim())}s] = useState([]);\n`;
@@ -356,6 +325,9 @@ const Code = () => {
     }
 
 
+    const resultChangeHander = (e: any) => {
+        setResult(e.target.value);
+    }
 
 
     return (
@@ -365,18 +337,15 @@ const Code = () => {
             <div className="w-full px-4 grid grid-cols-5 gap-4">
                 <div className="w-full col-span-2">
                     <div className="grid grid-cols-2 gap-4">
-                        <DropdownEn Title="Option" Id="opt" Change={e => setOpt(e.target.value)} Value={opt}>
+                        <DropdownEn Title="Option" Id="opt" Change={(e: any) => setOpt(e.target.value)} Value={opt}>
                             <option value="local">Local</option>
-                            <option value="dexie">Dexie</option>
                             <option value="mongo">MongoDB</option>
-                            <option value="mysql">Mysql</option>
-                            <option value="sqlite">SQLite3</option>
                         </DropdownEn>
-                        <TextEn Title="Table" Id="tbl" Change={e => setTbl(e.target.value)} Value={tbl} Chr="50" />
+                        <TextEn Title="Table" Id="tbl" Change={(e: any) => setTbl(e.target.value)} Value={tbl} Chr="50" />
                     </div>
                 </div>
                 <div className="col-span-3">
-                    <TextEn Title="Column" Id="fld" Change={e => setFld(e.target.value)} Value={fld} Chr="150" />
+                    <TextEn Title="Column" Id="fld" Change={(e: any) => setFld(e.target.value)} Value={fld} Chr="150" />
                 </div>
             </div>
 
@@ -391,15 +360,11 @@ const Code = () => {
                         <BtnEn Title="Edit" Click={EditGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="Delete" Click={DeleteGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="Print" Click={Print} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
-                        <BtnEn Title="Upload" Click={Upload} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
-                        <BtnEn Title="Download" Click={Download} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="Two Part" Click={TwoPartHandle} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="One Page" Click={OnePartHandle} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
-                        <BtnEn Title="Server" Click={ServerPageGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
-                        <BtnEn Title="MysqlRoutes" Click={MysqlDatabaseGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
-                        <BtnEn Title="Mysql Database" Click={MysqlDbPageGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
+
                         <BtnEn Title="LocalDatabase" Click={LocalDatabaseGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
-                        <BtnEn Title="DexieDatabase" Click={DexieDatabaseGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
+
                         <BtnEn Title="Unique Id" Click={UnitqueIdGenerator} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="Promise All" Click={PromiseGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="DropdownById" Click={DropdownById} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
@@ -409,7 +374,7 @@ const Code = () => {
                 </div>
                 <div className="col-span-2 py-4">
                     <p>{titleText}</p>
-                    <textarea rows="20" id="result" name="result" onChange={e => setResult(e.target.value)} value={result} required maxLength="2500" className="w-full px-4 py-1.5 text-gray-600 ring-1 focus:ring-4 ring-blue-300 outline-none rounded duration-300" />
+            <textarea rows={20} id="result" name="result" onChange={resultChangeHander} value={result} required maxLength={2500} className="w-full px-4 py-1.5 text-gray-600 ring-1 focus:ring-4 ring-blue-300 outline-none rounded duration-300" />
 
                 </div>
             </div>

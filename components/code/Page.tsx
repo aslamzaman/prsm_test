@@ -1,13 +1,13 @@
-const Page = (tbl, datas ,opt) => {
+const Page = (tbl: string, datas: string, opt: string) => {
 
-    const titleCase = (str) => {
+    const titleCase = (str: string) => {
         return str
             .split(' ')
-            .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+            .map((word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase())
             .join(' ');
     }
 
-    const replaceQutation = datas.replaceAll('`','');  
+    const replaceQutation = datas.replaceAll('`', '');
     const splitData = replaceQutation.split(",");
     const data = splitData.map(s => s.trim());
 
@@ -45,6 +45,7 @@ const Page = (tbl, datas ,opt) => {
     }
     );
 
+
     let getData = "";
     data.map((d, i) => {
         i === (data.length - 1)
@@ -80,28 +81,42 @@ const Page = (tbl, datas ,opt) => {
     data.map((d, i) => {
         if (i > 0) {
             i === (data.length - 1)
-                ? td_string = td_string + `                                            <td className="text-center py-2 px-4">{${tbl}.${d}}</td>`
-                : td_string = td_string + `                                            <td className="text-center py-2 px-4">{${tbl}.${d}}</td>\n`;
+                ? td_string = td_string + `                                        <td className="text-center py-2 px-4">{${tbl}.${d}}</td>`
+                : td_string = td_string + `                                        <td className="text-center py-2 px-4">{${tbl}.${d}}</td>\n`;
         }
     }
     );
 
+    let interface_string = "";
+    interface_string = interface_string + `   interface I${titleCase(tbl)} {\n`;
+    data.map((d, i) => {
+        i === (data.length - 1)
+            ? interface_string = interface_string + `        ${d}: string\n`
+            : interface_string = interface_string + `        ${d}: string,\n`;
+    });
+    interface_string = interface_string + `   }`;
 
 
-    const url1 = "const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/" + tbl + "/read/${Id}`);";
-    const url2 = "const response = await axios.put(`${Lib.url}/" + tbl + "/update/${Id}`, new" + titleCase(tbl) + "Object);";
+    //-------------------------------
+    let loadMongo: string = "";
+    loadMongo += '                    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/' + tbl + '/api`, {' + '\n';
+    loadMongo += '                        method: "GET",' + '\n';
+    loadMongo += '                        headers: { "Content-Type": "application/json" }' + '\n';
+    loadMongo += '                    });' + '\n\n';
+    loadMongo += '                    if (!response.ok) {' + '\n';
+    loadMongo += '                        throw new Error("Failed to fetch data");' + '\n';
+    loadMongo += '                    }' + '\n\n';
 
-    const errData = "console.error(`Error fetching " + tbl + " data: ${error}`);";
-    const errData2 = " console.error(`Error updating " + tbl + ": ${error}`);";
+    loadMongo += '                    const data: { ' + tbl + 's: I' + titleCase(tbl) + '[] } = await response.json();' + '\n';
 
-
-    const stringData = data.map(t => ` ${t}`).toString();
-
-// process.env.NEXT_PUBLIC_API_URL
-
-const loc = 'getItems("' + tbl+ '");';
-const dex = 'await fetchAll("'+ tbl+ '");';
-const mysq = 'await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/'+ tbl+'`);';
+    loadMongo += '                    set' + titleCase(tbl) + 's(data.' + tbl + 's);';
+    //-------------
+    let localLoad: string = "";
+    localLoad += '                    const response = getItems("' + tbl + '");' + '\n';
+    localLoad += '                    const data: IPost[] = response.data;' + '\n';
+    localLoad += '                    const result = data.sort((a, b) => parseInt(b.id) > parseInt(a.id) ? 1 : -1);' + '\n';
+    localLoad += '                    set' + titleCase(tbl) + 's(result);';
+    //--------------------------------------------------------------------------------------------
 
 
     const str = `    "use client";
@@ -109,32 +124,28 @@ const mysq = 'await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/'+ tbl+'`);';
     import Add from "@/components/${tbl}/Add";
     import Edit from "@/components/${tbl}/Edit";    
     import Delete from "@/components/${tbl}/Delete";
+ ${opt === 'mongo' ? '' : '   import { getItems } from "@/lib/LocalDatabase";'} 
 
-    
-
-
+${interface_string}
     const ${titleCase(tbl)} = () => {
-        const [${tbl}s, set${titleCase(tbl)}s] = useState([]);
+        const [${tbl}s, set${titleCase(tbl)}s] = useState<IPost[]>([]);
         const [msg, setMsg] = useState("Data ready");
     
     
         useEffect(() => {
-            const load = ${opt==='local'?'':'async'} () => {
+            const fetchData = ${opt === 'local' ? '' : 'async'} () => {
                 try {
-                    const response = ${opt==='local'?loc
-                    :opt==='dexie'?dex:mysq} 
-                    const data = response.data;                    
-                    const result = data.sort((a, b) => parseInt(b.id) > parseInt(a.id) ? 1 : -1);
-                    set${titleCase(tbl)}s(result);
+${opt === 'mongo' ? loadMongo : localLoad}
                 } catch (error) {
-                    console.log(error);
+                    console.error("Error fetching data:", error);
+                    setMsg("Failed to fetch data");
                 }
             };
-            load();
+            fetchData();
         }, [msg]);
     
     
-        const messageHandler = (data) => {
+        const messageHandler = (data: string) => {
             setMsg(data);
         }
     
@@ -151,27 +162,30 @@ const mysq = 'await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/'+ tbl+'`);';
                             <tr className="w-full bg-gray-200">                           
 ${thead_string}                                
                                 <th className="w-[100px] font-normal">
-                                    <div className="w-full flex justify-end mt-1 pr-[3px] lg:pr-2">
+                                    <div className="w-full flex justify-end py-0.5 pr-4">
                                         <Add message={messageHandler} />
                                     </div>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                ${tbl}s.length ? ${tbl}s.map(${tbl} => {
-                                    return (
-                                        <tr className="border-b border-gray-200 hover:bg-gray-100" key={${tbl}.id}>                                           
+                            {${tbl}s.length ?(
+                                ${tbl}s.map(${tbl} => (
+                                    <tr className="border-b border-gray-200 hover:bg-gray-100" key={${tbl}.${opt==='mongo'?'_id':'id'}}>                                           
 ${td_string}                                            
-                                            <td className="flex justify-end items-center mt-1">
-                                                <Edit message={messageHandler} id={${tbl}.id} />
-                                                <Delete message={messageHandler} id={${tbl}.id} />
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                                    : null
-                            }
+                                        <td className="flex justify-end items-center space-x-2 mt-1">
+                                             <Edit message={messageHandler} id={${tbl}.${opt === 'mongo' ? '_id' : 'id'}} data={${tbl}s} />
+                                             <Delete message={messageHandler} id={${tbl}.${opt === 'mongo' ? '_id' : 'id'}} data={${tbl}s} />
+                                        </td>
+                                    </tr>
+                                ))
+                            ): (
+                                <tr>
+                                    <td colSpan={${data.length}} className="text-center py-10 px-4">
+                                        Data not available.
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>

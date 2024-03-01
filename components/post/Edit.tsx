@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { TextEn, BtnSubmit, BtnEn } from "@/components/Form";
-import { Close } from "@/components/Icons";
 
 
-interface EditData {
+interface IEdit {
     message: (text: string) => void,
     id: string,
     data: {
@@ -13,8 +12,7 @@ interface EditData {
     }[]
 }
 
-
-const Edit = ({ message, id, data }: EditData) => {
+const Edit = ({ message, id, data }: IEdit) => {
     const [name, setName] = useState<string>('');
     const [short_name, setShort_name] = useState<string>('');
     const [show, setShow] = useState<boolean>(false);
@@ -47,26 +45,25 @@ const Edit = ({ message, id, data }: EditData) => {
     }
 
 
-
     const saveHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         try {
-            const newObject = createObject();
-            const apiUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/post/api/${id}`;
+            const newObject: {} = createObject();
+            const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/post/api/${id}`;
             const requestOptions: RequestInit = {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newObject)
             };
             const response = await fetch(apiUrl, requestOptions);
-            if (!response.ok) {
-                throw new Error(`Failed to update post. Status: ${response.status}`);
+            if (response.ok) {
+                message("Updated successfully completed");
+            } else {
+                throw new Error("Failed to create post");
             }
-            message("Updated successfully completed");
-        } catch (error) {
-            console.error("Update Error:", error);
-            message("Data updating error");
+        } catch (error: any) {
+            console.error("Error saving post data:", error);
+            message("Error saving post data.");
         } finally {
             setShow(false);
         }
@@ -85,6 +82,7 @@ const Edit = ({ message, id, data }: EditData) => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
+
                         </div>
 
                         <div className="px-6 pb-6 text-black">
@@ -104,11 +102,13 @@ const Edit = ({ message, id, data }: EditData) => {
                     </div >
                 </div >
             )}
-            <button onClick={showEditForm} title="Edit" className="px-1 py-1 bg-teal-500 hover:bg-teal-700 rounded-md transition duration-500">
+            <button onClick={showEditForm} title="Edit" className="px-1 py-1 bg-teal-600 hover:bg-teal-700 rounded-md transition duration-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 stroke-white hover:stroke-gray-100">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
                 </svg>
             </button>
+
+
         </>
     )
 }
