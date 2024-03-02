@@ -8,14 +8,24 @@ interface IAdd {
 
 const Add:React.FC<IAdd> = ({ message }) => {
     const [name, setName] = useState<string>('');
-    const [short_name, setShort_name] = useState<string>('');
+    const [address, setAddress] = useState<string>('');
+    const [contact, setContact] = useState<string>('');
+    const [join_date, setJoin_date] = useState<string>('');
+    const [show_in_dues, setShow_in_dues] = useState<string>('');
+    const [createdAt, setCreatedat] = useState<string>('');
+    const [updatedAt, setUpdatedat] = useState<string>('');
     const [show, setShow] = useState<boolean>(false);
 
 
     const resetVariables = () => {
         message("Ready to make new additions");        
         setName('');
-        setShort_name('');
+        setAddress('');
+        setContact('');
+        setJoin_date('');
+        setShow_in_dues('');
+        setCreatedat('');
+        setUpdatedat('');
     }
 
 
@@ -34,7 +44,12 @@ const Add:React.FC<IAdd> = ({ message }) => {
     const createObject = () => {
         return {
             name: name,
-            short_name: short_name 
+            address: address,
+            contact: contact,
+            join_date: join_date,
+            show_in_dues: show_in_dues,
+            createdAt: createdAt,
+            updatedAt: updatedAt 
         }
     }
 
@@ -43,7 +58,7 @@ const Add:React.FC<IAdd> = ({ message }) => {
         e.preventDefault();
         try {
             const newObject: {} = createObject();
-            const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/post/api`;
+            const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/customer/api`;
             const requestOptions: RequestInit = {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -51,13 +66,13 @@ const Add:React.FC<IAdd> = ({ message }) => {
             };
             const response = await fetch(apiUrl, requestOptions);
             if (response.ok) {
-              message("Post is created!");
+              message("Customer is created!");
             } else {
-              throw new Error("Failed to create post");
+              throw new Error("Failed to create customer");
             } 
           } catch (error: any) {
-              console.error("Error saving post data:", error);
-              message("Error saving post data.");
+              console.error("Error saving customer data:", error);
+              message("Error saving customer data.");
          }finally {
            setShow(false);
          }
@@ -81,7 +96,12 @@ const Add:React.FC<IAdd> = ({ message }) => {
                             <form onSubmit={saveHandler}>
                                 <div className="grid grid-cols-1 gap-4 my-4">
                                     <TextEn Title="Name" Id="name" Change={e => setName(e.target.value)} Value={name} Chr={50} />
-                                    <TextEn Title="Short_name" Id="short_name" Change={e => setShort_name(e.target.value)} Value={short_name} Chr={50} />                                      
+                                    <TextEn Title="Address" Id="address" Change={e => setAddress(e.target.value)} Value={address} Chr={50} />
+                                    <TextEn Title="Contact" Id="contact" Change={e => setContact(e.target.value)} Value={contact} Chr={50} />
+                                    <TextEn Title="Join_date" Id="join_date" Change={e => setJoin_date(e.target.value)} Value={join_date} Chr={50} />
+                                    <TextEn Title="Show_in_dues" Id="show_in_dues" Change={e => setShow_in_dues(e.target.value)} Value={show_in_dues} Chr={50} />
+                                    <TextEn Title="Createdat" Id="createdAt" Change={e => setCreatedat(e.target.value)} Value={createdAt} Chr={50} />
+                                    <TextEn Title="Updatedat" Id="updatedAt" Change={e => setUpdatedat(e.target.value)} Value={updatedAt} Chr={50} />                                      
                                 </div>
                                 <div className="w-full flex justify-start">                        
                                    <BtnEn Title="Close" Click={closeAddForm} Class="bg-pink-600 hover:bg-pink-800 text-white" />

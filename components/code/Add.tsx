@@ -18,8 +18,8 @@ const Add = (tbl: string, datas: string, opt: string) => {
     data.map((d, i) => {
         if (i > 0) {
             i === (data.length - 1)
-                ? dd = dd + `                                      <TextEn Title="${titleCase(d)}" Id="${d}" Change={(e: React.ChangeEvent<HTMLInputElement>) => set${titleCase(d)}(e.target.value)} Value={${d}} Chr="50" />`
-                : dd = dd + `                                      <TextEn Title="${titleCase(d)}" Id="${d}" Change={(e: React.ChangeEvent<HTMLInputElement>) => set${titleCase(d)}(e.target.value)} Value={${d}} Chr="50" />\n`;
+                ? dd = dd + `                                      <TextEn Title="${titleCase(d)}" Id="${d}" Change={e => set${titleCase(d)}(e.target.value)} Value={${d}} Chr={50} />`
+                : dd = dd + `                                      <TextEn Title="${titleCase(d)}" Id="${d}" Change={e => set${titleCase(d)}(e.target.value)} Value={${d}} Chr={50} />\n`;
         }
     }
     );

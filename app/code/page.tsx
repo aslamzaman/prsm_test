@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { ReactEventHandler, useEffect, useState } from "react";
 import { BtnEn, DropdownEn, TextEn } from "@/components/Form";
 
 import Page from "@/components/code/Page";
@@ -9,9 +9,13 @@ import Delete from "@/components/code/Delete";
 import LocalDatabase from "@/components/code/LocalDatabase";
 import LayoutPage from "@/components/code/LayoutPage";
 import Help_code from "@/components/code/HelpCode";
-import PrintPage from "@/components/code/PrintPage";
 import TwoPart from "@/components/code/TowPart";
 import OnePage from "@/components/code/OnePage";
+import ModelPage from "@/components/code/ModelPage";
+import RoutePage from "@/components/code/RoutePage";
+import RouteDynamicPage from "@/components/code/RouteDynamicPage";
+
+
 
 const titleCase = (str: string) => {
     return str
@@ -64,7 +68,7 @@ const Code = () => {
     }
 
     const LocalDatabaseGenerate = () => {
-        setTitleText(`lib/LocalDatabase.js`);
+        setTitleText(`lib/LocalDatabase.tsx`);
         setResult(LocalDatabase());
     }
 
@@ -77,7 +81,7 @@ const Code = () => {
     }
 
     const LayoutPageGenerate = () => {
-        setTitleText(`app/${tbl}/layout.js`);
+        setTitleText(`app/${tbl}/layout.tsx`);
         setResult(LayoutPage(tbl, fld));
     }
 
@@ -87,18 +91,13 @@ const Code = () => {
     }
 
 
-    const Print = () => {
-        setTitleText(`components/${tbl}/Print.js`);
-        setResult(PrintPage(tbl, fld, opt));
-    }
-
     const TwoPartHandle = () => {
-        setTitleText(`app/${tbl}/page.js`);
+        setTitleText(`app/${tbl}/page.tsx`);
         setResult(TwoPart(tbl, fld, opt));
     }
 
     const OnePartHandle = () => {
-        setTitleText(`app/${tbl}/page.js`);
+        setTitleText(`app/${tbl}/page.tsx`);
         setResult(OnePage(tbl, fld, opt));
     }
 
@@ -325,9 +324,27 @@ const Code = () => {
     }
 
 
-    const resultChangeHander = (e: any) => {
+    const resultChangeHander = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
         setResult(e.target.value);
     }
+
+const ModelPageGenerate = ()=>{
+    setTitleText(`models/${titleCase(tbl)}Model.tsx`);
+    setResult(ModelPage(tbl,fld));
+}
+
+const RoutePageGenerate = ()=>{
+    setTitleText(`${tbl}/api/route.tsx`);
+    setResult(RoutePage(tbl,fld));
+}
+
+const RouteDynamicPageGenerate = ()=>{
+    setTitleText(`${tbl}/api/[id]/route.tsx`);
+    setResult(RouteDynamicPage(tbl,fld));
+}
+
+
+
 
 
     return (
@@ -337,15 +354,15 @@ const Code = () => {
             <div className="w-full px-4 grid grid-cols-5 gap-4">
                 <div className="w-full col-span-2">
                     <div className="grid grid-cols-2 gap-4">
-                        <DropdownEn Title="Option" Id="opt" Change={(e: any) => setOpt(e.target.value)} Value={opt}>
+                        <DropdownEn Title="Option" Id="opt" Change={e => setOpt(e.target.value)} Value={opt}>
                             <option value="local">Local</option>
                             <option value="mongo">MongoDB</option>
                         </DropdownEn>
-                        <TextEn Title="Table" Id="tbl" Change={(e: any) => setTbl(e.target.value)} Value={tbl} Chr="50" />
+                        <TextEn Title="Table" Id="tbl" Change={e=> setTbl(e.target.value)} Value={tbl} Chr={20} />
                     </div>
                 </div>
                 <div className="col-span-3">
-                    <TextEn Title="Column" Id="fld" Change={(e: any) => setFld(e.target.value)} Value={fld} Chr="150" />
+                    <TextEn Title="Column" Id="fld" Change={e => setFld(e.target.value)} Value={fld} Chr={150} />
                 </div>
             </div>
 
@@ -356,15 +373,18 @@ const Code = () => {
 
                         <BtnEn Title="Page" Click={PageGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="LayoutPage" Click={LayoutPageGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
+                        <BtnEn Title="Route" Click={RoutePageGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
+                        <BtnEn Title="DynamicRoute" Click={RouteDynamicPageGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
+                        
                         <BtnEn Title="Add" Click={AddGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="Edit" Click={EditGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="Delete" Click={DeleteGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
-                        <BtnEn Title="Print" Click={Print} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
+                       
+                        <BtnEn Title="Model" Click={ModelPageGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
+                       
                         <BtnEn Title="Two Part" Click={TwoPartHandle} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="One Page" Click={OnePartHandle} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
-
                         <BtnEn Title="LocalDatabase" Click={LocalDatabaseGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
-
                         <BtnEn Title="Unique Id" Click={UnitqueIdGenerator} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="Promise All" Click={PromiseGenerate} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />
                         <BtnEn Title="DropdownById" Click={DropdownById} Class="bg-indigo-700 hover:bg-indigo-900 text-white mr-1 text-xs" />

@@ -1,5 +1,5 @@
-const Help_code = (tbl) => {
-  const titleCase = (str) => {
+const Help_code = (tbl:string) => {
+  const titleCase = (str:string) => {
     return str
       .split(' ')
       .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())

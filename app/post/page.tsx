@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import Add from "@/components/post/Add";
 import Edit from "@/components/post/Edit";    
 import Delete from "@/components/post/Delete";
+import {convertNumberToWords} from "@/lib/inword_en";
+
 
 
 interface IPost {
@@ -16,6 +18,7 @@ const Post = () => {
 
 
     useEffect(() => {
+       console.log(convertNumberToWords(19));
         const fetchData = async () => {
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post/api`, {

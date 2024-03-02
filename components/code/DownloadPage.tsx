@@ -1,4 +1,4 @@
-const DownloadPage = (tbl) => {
+const DownloadPage = (tbl:string) => {
 
 
    const sv = "            saveAs(blob, new Date().toISOString() + '-"+tbl+".js');";

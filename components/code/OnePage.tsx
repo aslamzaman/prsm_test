@@ -1,7 +1,7 @@
 
-const OnePage = (tbl, datas ,opt) => {
+const OnePage = (tbl:string, datas:string,opt:string) => {
 
-    const titleCase = (str) => {
+    const titleCase = (str:string) => {
         return str
             .split(' ')
             .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())

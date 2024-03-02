@@ -128,9 +128,9 @@ const Page = (tbl: string, datas: string, opt: string) => {
 
 ${interface_string}
     const ${titleCase(tbl)} = () => {
-        const [${tbl}s, set${titleCase(tbl)}s] = useState<IPost[]>([]);
+        const [${tbl}s, set${titleCase(tbl)}s] = useState<I${titleCase(tbl)}[]>([]);
         const [msg, setMsg] = useState("Data ready");
-    
+     
     
         useEffect(() => {
             const fetchData = ${opt === 'local' ? '' : 'async'} () => {

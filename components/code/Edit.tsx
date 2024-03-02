@@ -17,8 +17,8 @@ const Edit = (tbl: string, datas: string, opt: string) => {
     data.map((d, i) => {
         if (i > 0) {
             i === (data.length - 1)
-                ? dd = dd + `                                        <TextEn Title="${titleCase(d)}" Id="${d}" Change={(e: React.ChangeEvent<HTMLInputElement>) => set${titleCase(d)}(e.target.value)} Value={${d}} Chr="50" />`
-                : dd = dd + `                                        <TextEn Title="${titleCase(d)}" Id="${d}" Change={(e: React.ChangeEvent<HTMLInputElement>) => set${titleCase(d)}(e.target.value)} Value={${d}} Chr="50" />\n`;
+                ? dd = dd + `                                        <TextEn Title="${titleCase(d)}" Id="${d}" Change={e => set${titleCase(d)}(e.target.value)} Value={${d}} Chr={50} />`
+                : dd = dd + `                                        <TextEn Title="${titleCase(d)}" Id="${d}" Change={e => set${titleCase(d)}(e.target.value)} Value={${d}} Chr={50} />\n`;
         }
     }
     );
@@ -76,19 +76,13 @@ const Edit = (tbl: string, datas: string, opt: string) => {
  //------------------------------------------------------------------------
     let interfaceData = '';
     interfaceData += '    interface IEdit {' + '\n';
-    interfaceData += '        message: (text: string) => void,' + '\n';
-    interfaceData += '        id: string,' + '\n';
+    interfaceData += '        message: (text: string) => void;' + '\n';
+    interfaceData += '        id: string;' + '\n';
     interfaceData += '        data: {' + '\n';
 
     let intFace = "";
-    data.map((d, i) => {
-
-        i === (data.length - 1)
-            ? intFace = intFace + `            ${d}: string\n`
-            : intFace = intFace + `            ${d}: string,\n`
-
-    }
-    );
+    data.map(d => intFace = intFace + `            ${d}: string;\n`);
+   
     interfaceData += intFace;
     interfaceData += '        }[]' + '\n';
     interfaceData += '    }';
@@ -193,7 +187,7 @@ const Edit = (tbl: string, datas: string, opt: string) => {
            
 ${interfaceData}
     
-    const Edi: React.FC<IEdit> = ({ message, id, data }) => {        
+    const Edit: React.FC<IEdit> = ({ message, id, data }) => {        
 ${stateVar}        
         const [show, setShow] = useState<boolean>(false);
     
