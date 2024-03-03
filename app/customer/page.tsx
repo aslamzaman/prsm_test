@@ -6,18 +6,18 @@ import Delete from "@/components/customer/Delete";
 
 
 interface ICustomer {
-    _id: string,
-    name: string,
-    address: string,
-    contact: string,
-    join_date: string,
-    show_in_dues: string,
-    createdAt: string,
-    updatedAt: string
+    _id: string;
+    name: string;
+    address: string;
+    contact: string;
+    join_date: string;
+    show_in_dues: string;
+    createdAt: string;
+    updatedAt: string;
 }
 const Customer = () => {
     const [customers, setCustomers] = useState<ICustomer[]>([]);
-    const [msg, setMsg] = useState("Data ready");
+    const [msg, setMsg] = useState<string>("Data ready");
 
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const Customer = () => {
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setMsg("Failed to fetch data");
-            }
+            } 
         };
         fetchData();
     }, [msg]);
@@ -98,6 +98,8 @@ const Customer = () => {
                         )}
                     </tbody>
                 </table>
+
+
             </div>
         </>
     );

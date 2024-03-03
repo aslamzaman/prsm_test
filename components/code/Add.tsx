@@ -167,8 +167,8 @@ ${opt === 'mongo' ? saveStr : localSave}
 ${dd}                                      
                                   </div>
                                   <div className="w-full flex justify-start">                        
-                                     <BtnEn Title="Close" Click={closeAddForm} Class="bg-pink-600 hover:bg-pink-800 text-white" />
                                      <BtnSubmit Title="Save" Class="bg-blue-600 hover:bg-blue-800 text-white" />
+                                     <BtnEn Title="Close" Click={closeAddForm} Class="bg-pink-600 hover:bg-pink-800 text-white" />
                                   </div>
                               </form>
                           </div>

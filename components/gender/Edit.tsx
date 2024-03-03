@@ -8,23 +8,11 @@ interface IEdit {
     data: {
         _id: string;
         name: string;
-        address: string;
-        contact: string;
-        join_date: string;
-        show_in_dues: string;
-        createdAt: string;
-        updatedAt: string;
     }[]
 }
 
 const Edit: React.FC<IEdit> = ({ message, id, data }) => {        
-    const [name, setName] = useState<string>('');
-    const [address, setAddress] = useState<string>('');
-    const [contact, setContact] = useState<string>('');
-    const [join_date, setJoin_date] = useState<string>('');
-    const [show_in_dues, setShow_in_dues] = useState<string>('');
-    const [createdAt, setCreatedat] = useState<string>('');
-    const [updatedAt, setUpdatedat] = useState<string>('');        
+    const [name, setName] = useState<string>('');        
     const [show, setShow] = useState<boolean>(false);
 
 
@@ -32,14 +20,8 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
         setShow(true);
         message("Ready to edit");
         try {
-           const { name, address, contact, join_date, show_in_dues, createdAt, updatedAt } = data.find(customer => customer._id === id) || { name: '', address: '', contact: '', join_date: '', show_in_dues: '', createdAt: '', updatedAt: '' };
-           setName(name);
-           setAddress(address);
-           setContact(contact);
-           setJoin_date(join_date);
-           setShow_in_dues(show_in_dues);
-           setCreatedat(createdAt);
-           setUpdatedat(updatedAt);             
+           const { name } = data.find(gender => gender._id === id) || { name: '' };
+           setName(name);             
         } catch (err) {
             console.log(err);
         }
@@ -54,13 +36,7 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
 
     const createObject = () => {
         return {
-          name: name,
-          address: address,
-          contact: contact,
-          join_date: join_date,
-          show_in_dues: show_in_dues,
-          createdAt: createdAt,
-          updatedAt: updatedAt                
+          name: name                
         }
     }
 
@@ -69,7 +45,7 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
         e.preventDefault();
         try {
             const newObject: {} = createObject();
-            const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/customer/api/${id}`;
+            const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/gender/api/${id}`;
             const requestOptions: RequestInit = {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -79,11 +55,11 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
             if (response.ok) {
                 message("Updated successfully completed");
             } else {
-                throw new Error("Failed to create customer");
+                throw new Error("Failed to create gender");
             } 
         } catch (error: any) {
-            console.error("Error saving customer data:", error);
-            message("Error saving customer data.");
+            console.error("Error saving gender data:", error);
+            message("Error saving gender data.");
         }finally {
             setShow(false);
         }
@@ -108,13 +84,7 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
                         <div className="px-6 pb-6 text-black">
                             <form onSubmit={saveHandler} >
                                 <div className="grid grid-cols-1 gap-4 my-4">
-                                    <TextEn Title="Name" Id="name" Change={e => setName(e.target.value)} Value={name} Chr={50} />
-                                    <TextEn Title="Address" Id="address" Change={e => setAddress(e.target.value)} Value={address} Chr={50} />
-                                    <TextEn Title="Contact" Id="contact" Change={e => setContact(e.target.value)} Value={contact} Chr={50} />
-                                    <TextEn Title="Join_date" Id="join_date" Change={e => setJoin_date(e.target.value)} Value={join_date} Chr={50} />
-                                    <TextEn Title="Show_in_dues" Id="show_in_dues" Change={e => setShow_in_dues(e.target.value)} Value={show_in_dues} Chr={50} />
-                                    <TextEn Title="Createdat" Id="createdAt" Change={e => setCreatedat(e.target.value)} Value={createdAt} Chr={50} />
-                                    <TextEn Title="Updatedat" Id="updatedAt" Change={e => setUpdatedat(e.target.value)} Value={updatedAt} Chr={50} />                                        
+                                    <TextEn Title="Name" Id="name" Change={e => setName(e.target.value)} Value={name} Chr={50} />                                        
                                 </div>
                                 <div className="w-full flex justify-start">
                                     <BtnSubmit Title="Save" Class="bg-blue-600 hover:bg-blue-800 text-white" />

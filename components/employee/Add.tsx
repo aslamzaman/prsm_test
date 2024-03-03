@@ -9,11 +9,11 @@ interface IAdd {
 const Add:React.FC<IAdd> = ({ message }) => {
     const [name, setName] = useState<string>('');
     const [address, setAddress] = useState<string>('');
-    const [contact, setContact] = useState<string>('');
-    const [join_date, setJoin_date] = useState<string>('');
-    const [show_in_dues, setShow_in_dues] = useState<string>('');
-    const [createdAt, setCreatedat] = useState<string>('');
-    const [updatedAt, setUpdatedat] = useState<string>('');
+    const [gender_id, setGender_id] = useState<string>('');
+    const [district_id, setDistrict_id] = useState<string>('');
+    const [post_id, setPost_id] = useState<string>('');
+    const [join_dt, setJoin_dt] = useState<string>('');
+    const [mobile, setMobile] = useState<string>('');
     const [show, setShow] = useState<boolean>(false);
 
 
@@ -21,11 +21,11 @@ const Add:React.FC<IAdd> = ({ message }) => {
         message("Ready to make new additions");        
         setName('');
         setAddress('');
-        setContact('');
-        setJoin_date('');
-        setShow_in_dues('');
-        setCreatedat('');
-        setUpdatedat('');
+        setGender_id('');
+        setDistrict_id('');
+        setPost_id('');
+        setJoin_dt('');
+        setMobile('');
     }
 
 
@@ -45,11 +45,11 @@ const Add:React.FC<IAdd> = ({ message }) => {
         return {
             name: name,
             address: address,
-            contact: contact,
-            join_date: join_date,
-            show_in_dues: show_in_dues,
-            createdAt: createdAt,
-            updatedAt: updatedAt 
+            gender_id: gender_id,
+            district_id: district_id,
+            post_id: post_id,
+            join_dt: join_dt,
+            mobile: mobile 
         }
     }
 
@@ -58,7 +58,7 @@ const Add:React.FC<IAdd> = ({ message }) => {
         e.preventDefault();
         try {
             const newObject: {} = createObject();
-            const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/customer/api`;
+            const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/employee/api`;
             const requestOptions: RequestInit = {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -66,13 +66,13 @@ const Add:React.FC<IAdd> = ({ message }) => {
             };
             const response = await fetch(apiUrl, requestOptions);
             if (response.ok) {
-              message("Customer is created!");
+              message("Employee is created!");
             } else {
-              throw new Error("Failed to create customer");
+              throw new Error("Failed to create employee");
             } 
           } catch (error: any) {
-              console.error("Error saving customer data:", error);
-              message("Error saving customer data.");
+              console.error("Error saving employee data:", error);
+              message("Error saving employee data.");
          }finally {
            setShow(false);
          }
@@ -97,17 +97,19 @@ const Add:React.FC<IAdd> = ({ message }) => {
                                 <div className="grid grid-cols-1 gap-4 my-4">
                                     <TextEn Title="Name" Id="name" Change={e => setName(e.target.value)} Value={name} Chr={50} />
                                     <TextEn Title="Address" Id="address" Change={e => setAddress(e.target.value)} Value={address} Chr={50} />
-                                    <TextEn Title="Contact" Id="contact" Change={e => setContact(e.target.value)} Value={contact} Chr={50} />
-                                    <TextEn Title="Join_date" Id="join_date" Change={e => setJoin_date(e.target.value)} Value={join_date} Chr={50} />
-                                    <TextEn Title="Show_in_dues" Id="show_in_dues" Change={e => setShow_in_dues(e.target.value)} Value={show_in_dues} Chr={50} />
-                                    <TextEn Title="Createdat" Id="createdAt" Change={e => setCreatedat(e.target.value)} Value={createdAt} Chr={50} />
-                                    <TextEn Title="Updatedat" Id="updatedAt" Change={e => setUpdatedat(e.target.value)} Value={updatedAt} Chr={50} />                                      
+                                    <TextEn Title="Gender_id" Id="gender_id" Change={e => setGender_id(e.target.value)} Value={gender_id} Chr={50} />
+                                    <TextEn Title="District_id" Id="district_id" Change={e => setDistrict_id(e.target.value)} Value={district_id} Chr={50} />
+                                    <TextEn Title="Post_id" Id="post_id" Change={e => setPost_id(e.target.value)} Value={post_id} Chr={50} />
+                                    <TextEn Title="Join_dt" Id="join_dt" Change={e => setJoin_dt(e.target.value)} Value={join_dt} Chr={50} />
+                                    <TextEn Title="Mobile" Id="mobile" Change={e => setMobile(e.target.value)} Value={mobile} Chr={50} />                                      
                                 </div>
                                 <div className="w-full flex justify-start">                        
                                    <BtnSubmit Title="Save" Class="bg-blue-600 hover:bg-blue-800 text-white" />
                                    <BtnEn Title="Close" Click={closeAddForm} Class="bg-pink-600 hover:bg-pink-800 text-white" />
+                                   <span onClick={closeAddForm} className="bg-pink-600 hover:bg-pink-800 text-white">Close </span>
                                 </div>
                             </form>
+                            
                         </div>
                     </div>
                 </div>

@@ -70,8 +70,8 @@ const Page = (tbl: string, datas: string, opt: string) => {
     data.map((d, i) => {
         if (i > 0) {
             i === (data.length - 1)
-                ? thead_string = thead_string + `                                <th className="text-center border-b border-gray-200 px-4 py-2">${titleCase(d)}</th>`
-                : thead_string = thead_string + `                                <th className="text-center border-b border-gray-200 px-4 py-2">${titleCase(d)}</th>\n`;
+                ? thead_string = thead_string + `                                      <th className="text-center border-b border-gray-200 px-4 py-2">${titleCase(d)}</th>`
+                : thead_string = thead_string + `                                      <th className="text-center border-b border-gray-200 px-4 py-2">${titleCase(d)}</th>\n`;
         }
     }
     );
@@ -81,8 +81,8 @@ const Page = (tbl: string, datas: string, opt: string) => {
     data.map((d, i) => {
         if (i > 0) {
             i === (data.length - 1)
-                ? td_string = td_string + `                                        <td className="text-center py-2 px-4">{${tbl}.${d}}</td>`
-                : td_string = td_string + `                                        <td className="text-center py-2 px-4">{${tbl}.${d}}</td>\n`;
+                ? td_string = td_string + `                                              <td className="text-center py-2 px-4">{${tbl}.${d}}</td>`
+                : td_string = td_string + `                                              <td className="text-center py-2 px-4">{${tbl}.${d}}</td>\n`;
         }
     }
     );
@@ -91,8 +91,8 @@ const Page = (tbl: string, datas: string, opt: string) => {
     interface_string = interface_string + `   interface I${titleCase(tbl)} {\n`;
     data.map((d, i) => {
         i === (data.length - 1)
-            ? interface_string = interface_string + `        ${d}: string\n`
-            : interface_string = interface_string + `        ${d}: string,\n`;
+            ? interface_string = interface_string + `        ${d}: string;\n`
+            : interface_string = interface_string + `        ${d}: string;\n`;
     });
     interface_string = interface_string + `   }`;
 
@@ -129,8 +129,8 @@ const Page = (tbl: string, datas: string, opt: string) => {
 ${interface_string}
     const ${titleCase(tbl)} = () => {
         const [${tbl}s, set${titleCase(tbl)}s] = useState<I${titleCase(tbl)}[]>([]);
-        const [msg, setMsg] = useState("Data ready");
-     
+        const [msg, setMsg] = useState<string>("Data ready");
+
     
         useEffect(() => {
             const fetchData = ${opt === 'local' ? '' : 'async'} () => {
@@ -174,8 +174,8 @@ ${thead_string}
                                     <tr className="border-b border-gray-200 hover:bg-gray-100" key={${tbl}.${opt==='mongo'?'_id':'id'}}>                                           
 ${td_string}                                            
                                         <td className="flex justify-end items-center space-x-2 mt-1">
-                                             <Edit message={messageHandler} id={${tbl}.${opt === 'mongo' ? '_id' : 'id'}} data={${tbl}s} />
-                                             <Delete message={messageHandler} id={${tbl}.${opt === 'mongo' ? '_id' : 'id'}} data={${tbl}s} />
+                                            <Edit message={messageHandler} id={${tbl}.${opt === 'mongo' ? '_id' : 'id'}} data={${tbl}s} />
+                                            <Delete message={messageHandler} id={${tbl}.${opt === 'mongo' ? '_id' : 'id'}} data={${tbl}s} />
                                         </td>
                                     </tr>
                                 ))

@@ -27,3 +27,26 @@ export const POST = async (req: Request) => {
     return NextResponse.json({ message: "POST Error", err }, { status: 500 });
   }
 }
+
+
+/*
+export const POST = async (req: Request) => {
+  try {
+    const body = await req.json();
+    console.log(body);
+
+    await Connect();
+    const customers = await CustomerModel.insertMany(body);
+
+   return NextResponse.json(customers);
+  } catch (err) {
+    return NextResponse.json({ message: "POST Error", err }, { status: 500 });
+  }
+}
+
+
+await Movies.insertMany([
+  { name: 'Star Wars' },
+  { name: 'The Empire Strikes Back' }
+]);
+*/

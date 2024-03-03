@@ -10,4 +10,5 @@ const CustomerSchema = new mongoose.Schema({
     updatedAt: String
 })
 
-export const CustomerModel = mongoose.models.Customer || mongoose.model("Customer", CustomerSchema);  
+export const CustomerModel = mongoose.models.Customer || mongoose.model("Customer", CustomerSchema);
+

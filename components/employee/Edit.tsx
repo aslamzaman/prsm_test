@@ -9,22 +9,22 @@ interface IEdit {
         _id: string;
         name: string;
         address: string;
-        contact: string;
-        join_date: string;
-        show_in_dues: string;
-        createdAt: string;
-        updatedAt: string;
+        gender_id: string;
+        district_id: string;
+        post_id: string;
+        join_dt: string;
+        mobile: string;
     }[]
 }
 
 const Edit: React.FC<IEdit> = ({ message, id, data }) => {        
     const [name, setName] = useState<string>('');
     const [address, setAddress] = useState<string>('');
-    const [contact, setContact] = useState<string>('');
-    const [join_date, setJoin_date] = useState<string>('');
-    const [show_in_dues, setShow_in_dues] = useState<string>('');
-    const [createdAt, setCreatedat] = useState<string>('');
-    const [updatedAt, setUpdatedat] = useState<string>('');        
+    const [gender_id, setGender_id] = useState<string>('');
+    const [district_id, setDistrict_id] = useState<string>('');
+    const [post_id, setPost_id] = useState<string>('');
+    const [join_dt, setJoin_dt] = useState<string>('');
+    const [mobile, setMobile] = useState<string>('');        
     const [show, setShow] = useState<boolean>(false);
 
 
@@ -32,14 +32,14 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
         setShow(true);
         message("Ready to edit");
         try {
-           const { name, address, contact, join_date, show_in_dues, createdAt, updatedAt } = data.find(customer => customer._id === id) || { name: '', address: '', contact: '', join_date: '', show_in_dues: '', createdAt: '', updatedAt: '' };
+           const { name, address, gender_id, district_id, post_id, join_dt, mobile } = data.find(employee => employee._id === id) || { name: '', address: '', gender_id: '', district_id: '', post_id: '', join_dt: '', mobile: '' };
            setName(name);
            setAddress(address);
-           setContact(contact);
-           setJoin_date(join_date);
-           setShow_in_dues(show_in_dues);
-           setCreatedat(createdAt);
-           setUpdatedat(updatedAt);             
+           setGender_id(gender_id);
+           setDistrict_id(district_id);
+           setPost_id(post_id);
+           setJoin_dt(join_dt);
+           setMobile(mobile);             
         } catch (err) {
             console.log(err);
         }
@@ -56,11 +56,11 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
         return {
           name: name,
           address: address,
-          contact: contact,
-          join_date: join_date,
-          show_in_dues: show_in_dues,
-          createdAt: createdAt,
-          updatedAt: updatedAt                
+          gender_id: gender_id,
+          district_id: district_id,
+          post_id: post_id,
+          join_dt: join_dt,
+          mobile: mobile                
         }
     }
 
@@ -69,7 +69,7 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
         e.preventDefault();
         try {
             const newObject: {} = createObject();
-            const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/customer/api/${id}`;
+            const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/employee/api/${id}`;
             const requestOptions: RequestInit = {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -79,11 +79,11 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
             if (response.ok) {
                 message("Updated successfully completed");
             } else {
-                throw new Error("Failed to create customer");
+                throw new Error("Failed to create employee");
             } 
         } catch (error: any) {
-            console.error("Error saving customer data:", error);
-            message("Error saving customer data.");
+            console.error("Error saving employee data:", error);
+            message("Error saving employee data.");
         }finally {
             setShow(false);
         }
@@ -110,11 +110,11 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
                                 <div className="grid grid-cols-1 gap-4 my-4">
                                     <TextEn Title="Name" Id="name" Change={e => setName(e.target.value)} Value={name} Chr={50} />
                                     <TextEn Title="Address" Id="address" Change={e => setAddress(e.target.value)} Value={address} Chr={50} />
-                                    <TextEn Title="Contact" Id="contact" Change={e => setContact(e.target.value)} Value={contact} Chr={50} />
-                                    <TextEn Title="Join_date" Id="join_date" Change={e => setJoin_date(e.target.value)} Value={join_date} Chr={50} />
-                                    <TextEn Title="Show_in_dues" Id="show_in_dues" Change={e => setShow_in_dues(e.target.value)} Value={show_in_dues} Chr={50} />
-                                    <TextEn Title="Createdat" Id="createdAt" Change={e => setCreatedat(e.target.value)} Value={createdAt} Chr={50} />
-                                    <TextEn Title="Updatedat" Id="updatedAt" Change={e => setUpdatedat(e.target.value)} Value={updatedAt} Chr={50} />                                        
+                                    <TextEn Title="Gender_id" Id="gender_id" Change={e => setGender_id(e.target.value)} Value={gender_id} Chr={50} />
+                                    <TextEn Title="District_id" Id="district_id" Change={e => setDistrict_id(e.target.value)} Value={district_id} Chr={50} />
+                                    <TextEn Title="Post_id" Id="post_id" Change={e => setPost_id(e.target.value)} Value={post_id} Chr={50} />
+                                    <TextEn Title="Join_dt" Id="join_dt" Change={e => setJoin_dt(e.target.value)} Value={join_dt} Chr={50} />
+                                    <TextEn Title="Mobile" Id="mobile" Change={e => setMobile(e.target.value)} Value={mobile} Chr={50} />                                        
                                 </div>
                                 <div className="w-full flex justify-start">
                                     <BtnSubmit Title="Save" Class="bg-blue-600 hover:bg-blue-800 text-white" />
