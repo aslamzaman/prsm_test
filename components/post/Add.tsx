@@ -84,8 +84,8 @@ const Add:React.FC<IAdd> = ({ message }) => {
                                     <TextEn Title="Short_name" Id="short_name" Change={e => setShort_name(e.target.value)} Value={short_name} Chr={50} />                                      
                                 </div>
                                 <div className="w-full flex justify-start">                        
-                                   <BtnEn Title="Close" Click={closeAddForm} Class="bg-pink-600 hover:bg-pink-800 text-white" />
-                                   <BtnSubmit Title="Save" Class="bg-blue-600 hover:bg-blue-800 text-white" />
+                                   <BtnSubmit Title="Save" Class="bg-blue-600 hover:bg-blue-800 text-white" />   
+                                   <input type="button" onClick={closeAddForm} value="Close" className="bg-pink-600 hover:bg-pink-800 text-white text-center mt-3 mx-0.5 px-4 py-2 font-semibold rounded-md focus:ring-1 ring-blue-200 ring-offset-2 duration-300 cursor-pointer" />
                                 </div>
                             </form>
                         </div>
