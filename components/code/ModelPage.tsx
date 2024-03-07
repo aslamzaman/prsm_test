@@ -21,13 +21,32 @@ const ModelPage = (tbl: string, datas: string) => {
         }
     });
 
-    let str = `    import mongoose from "mongoose";
+    let inter = "";
+    inter += "    interface I"+titleCase(tbl)+" {"+"\n";
+    data.map((d, i) => {
+        if (i > 0) {
+            i === (data.length - 1)
+                ? inter +=  `       ${d}: String;`
+                : inter +=  `       ${d}: String;\n`
+        }
+    });
+    inter += "\n    }"+"\n";
 
-    const ${titleCase(tbl)}Schema = new mongoose.Schema({
+
+
+    let str = `    import mongoose,{ Schema } from "mongoose";
+
+${inter}
+    const ${titleCase(tbl)}Schema = new Schema<I${titleCase(tbl)}>(
+        {
  ${obj}       
-    })
+        },
+        {
+            timestamps: true
+        }
+    );
     
-    export const ${titleCase(tbl)}Model = mongoose.models.${titleCase(tbl)} || mongoose.model("${titleCase(tbl)}", ${titleCase(tbl)}Schema);  
+    export const ${titleCase(tbl)}Model = mongoose.models.${titleCase(tbl)} || mongoose.model<I${titleCase(tbl)}>("${titleCase(tbl)}", ${titleCase(tbl)}Schema);  
     `;
 
     return str;

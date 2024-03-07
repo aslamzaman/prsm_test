@@ -8,13 +8,13 @@ interface IEdit {
     data: {
         _id: string;
         name: string;
-        short_name: string;
+        shortname: string;
     }[]
 }
 
 const Edit: React.FC<IEdit> = ({ message, id, data }) => {        
     const [name, setName] = useState<string>('');
-    const [short_name, setShort_name] = useState<string>('');        
+    const [shortname, setShortname] = useState<string>('');        
     const [show, setShow] = useState<boolean>(false);
 
 
@@ -22,9 +22,9 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
         setShow(true);
         message("Ready to edit");
         try {
-           const { name, short_name } = data.find(post => post._id === id) || { name: '', short_name: '' };
+           const { name, shortname } = data.find(post => post._id === id) || { name: '', shortname: '' };
            setName(name);
-           setShort_name(short_name);             
+           setShortname(shortname);             
         } catch (err) {
             console.log(err);
         }
@@ -40,7 +40,7 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
     const createObject = () => {
         return {
           name: name,
-          short_name: short_name                
+          shortname: shortname                
         }
     }
 
@@ -89,7 +89,7 @@ const Edit: React.FC<IEdit> = ({ message, id, data }) => {
                             <form onSubmit={saveHandler} >
                                 <div className="grid grid-cols-1 gap-4 my-4">
                                     <TextEn Title="Name" Id="name" Change={e => setName(e.target.value)} Value={name} Chr={50} />
-                                    <TextEn Title="Short_name" Id="short_name" Change={e => setShort_name(e.target.value)} Value={short_name} Chr={50} />                                        
+                                    <TextEn Title="Shortname" Id="shortname" Change={e => setShortname(e.target.value)} Value={shortname} Chr={50} />                                        
                                 </div>
                                 <div className="w-full flex justify-start">
                                     <BtnSubmit Title="Save" Class="bg-blue-600 hover:bg-blue-800 text-white" />

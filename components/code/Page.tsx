@@ -107,9 +107,9 @@ const Page = (tbl: string, datas: string, opt: string) => {
     loadMongo += '                        throw new Error("Failed to fetch data");' + '\n';
     loadMongo += '                    }' + '\n\n';
 
-    loadMongo += '                    const data: { ' + tbl + 's: I' + titleCase(tbl) + '[] } = await response.json();' + '\n';
-
-    loadMongo += '                    set' + titleCase(tbl) + 's(data.' + tbl + 's);';
+    loadMongo += '                    const data: I' + titleCase(tbl) + '[] = await response.json();' + '\n';
+    loadMongo += '                    console.log(data);' + '\n';
+    loadMongo += '                    set' + titleCase(tbl) + 's(data);';
     //-------------
     let localLoad: string = "";
     localLoad += '                    const response = getItems("' + tbl + '");' + '\n';

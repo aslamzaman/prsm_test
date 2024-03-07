@@ -3,10 +3,11 @@ import { Connect } from '@/db/MongoDbConnection';
 import { EmployeeModel } from '@/models/EmployeeModel';
 
 
-export async function GET() {
+export const GET = async (req: Request) => {
   try {
     await Connect();
-    const employees = await EmployeeModel.find({}).sort({_id:'desc'});
+    const employees = await EmployeeModel.find({}).populate('gender_id').sort({_id:'desc'});
+    console.log(employees)
     return NextResponse.json({ employees });
   } catch (error) {
     console.error('GET Error:', error);

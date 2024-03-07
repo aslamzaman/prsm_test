@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 
-const uri:string = `${process.env.DATABASE_URL}`;
-export const Connect = async () => {
-    try {
-        await mongoose.connect(uri);
-        console.log("Mongoose Connection Established");
-    } catch (err) {
-        console.log(`Mongodb connection fail. ${err}`);
-    }
+export const Connect = async (): Promise<void> => {
+	try {
+		const MONGODB_URI:string = `${process.env.DATABASE_URL}`;
+		const connection = await mongoose.connect(MONGODB_URI);
+		console.log('MongoDB connected:', connection.connection.host);
+	} catch (err) {
+		console.error(err);
+		process.exit(1);
+	}
 }

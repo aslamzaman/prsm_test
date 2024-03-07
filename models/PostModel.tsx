@@ -1,8 +1,18 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const PostSchema = new mongoose.Schema({
+interface IPost {
+  name: String;
+  shortname: String;
+}
+
+const PostSchema = new Schema<IPost>(
+  {
     name: String,
-   short_name: String       
-})
+    shortname: String
+  },
+  {
+    timestamps: true
+  }
+);
 
-export const PostModel = mongoose.models.Post || mongoose.model("Post", PostSchema);  
+export const PostModel = mongoose.models.Post || mongoose.model<IPost>("Post", PostSchema);  

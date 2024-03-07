@@ -8,14 +8,14 @@ interface IAdd {
 
 const Add:React.FC<IAdd> = ({ message }) => {
     const [name, setName] = useState<string>('');
-    const [short_name, setShort_name] = useState<string>('');
+    const [shortname, setShortname] = useState<string>('');
     const [show, setShow] = useState<boolean>(false);
 
 
     const resetVariables = () => {
         message("Ready to make new additions");        
         setName('');
-        setShort_name('');
+        setShortname('');
     }
 
 
@@ -34,7 +34,7 @@ const Add:React.FC<IAdd> = ({ message }) => {
     const createObject = () => {
         return {
             name: name,
-            short_name: short_name 
+            shortname: shortname 
         }
     }
 
@@ -81,7 +81,7 @@ const Add:React.FC<IAdd> = ({ message }) => {
                             <form onSubmit={saveHandler}>
                                 <div className="grid grid-cols-1 gap-4 my-4">
                                     <TextEn Title="Name" Id="name" Change={e => setName(e.target.value)} Value={name} Chr={50} />
-                                    <TextEn Title="Short_name" Id="short_name" Change={e => setShort_name(e.target.value)} Value={short_name} Chr={50} />                                      
+                                    <TextEn Title="Shortname" Id="shortname" Change={e => setShortname(e.target.value)} Value={shortname} Chr={50} />                                      
                                 </div>
                                 <div className="w-full flex justify-start">                        
                                    <BtnSubmit Title="Save" Class="bg-blue-600 hover:bg-blue-800 text-white" />   

@@ -8,7 +8,7 @@ import { BtnEn } from "../Form";
     data: {
         _id: string,
         name: string,
-        short_name: string
+        shortname: string
     }[]
 }
 

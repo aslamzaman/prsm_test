@@ -8,7 +8,7 @@ import Delete from "@/components/post/Delete";
 interface IPost {
     _id: string;
     name: string;
-    short_name: string;
+    shortname: string;
 }
 const Post = () => {
     const [posts, setPosts] = useState<IPost[]>([]);
@@ -27,8 +27,9 @@ const Post = () => {
                     throw new Error("Failed to fetch data");
                 }
 
-                const data: { posts: IPost[] } = await response.json();
-                setPosts(data.posts);
+                const data: IPost[] = await response.json();
+                console.log(data);
+                setPosts(data);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setMsg("Failed to fetch data");
@@ -54,7 +55,7 @@ const Post = () => {
                     <thead>
                         <tr className="w-full bg-gray-200">                           
                                   <th className="text-center border-b border-gray-200 px-4 py-2">Name</th>
-                                  <th className="text-center border-b border-gray-200 px-4 py-2">Short_name</th>                                
+                                  <th className="text-center border-b border-gray-200 px-4 py-2">Shortname</th>                                
                             <th className="w-[100px] font-normal">
                                 <div className="w-full flex justify-end py-0.5 pr-4">
                                     <Add message={messageHandler} />
@@ -67,7 +68,7 @@ const Post = () => {
                             posts.map(post => (
                                 <tr className="border-b border-gray-200 hover:bg-gray-100" key={post._id}>                                           
                                           <td className="text-center py-2 px-4">{post.name}</td>
-                                          <td className="text-center py-2 px-4">{post.short_name}</td>                                            
+                                          <td className="text-center py-2 px-4">{post.shortname}</td>                                            
                                     <td className="flex justify-end items-center space-x-2 mt-1">
                                         <Edit message={messageHandler} id={post._id} data={posts} />
                                         <Delete message={messageHandler} id={post._id} data={posts} />
